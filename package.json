@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3"
+  },
+  "name": "api-rest-node",
+  "description": "When you're ready, start your application by running: `docker compose up --build`.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Diniz-Felipe/api-rest-node-completed.git"
+  },
+  "author": "Diniz Felipe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Diniz-Felipe/api-rest-node-completed/issues"
+  },
+  "homepage": "https://github.com/Diniz-Felipe/api-rest-node-completed#readme"
+}
