@@ -16,25 +16,49 @@ const Service = mongoose.model('Service', {
 
 app.use(express.json());
 
-app.route('/Services')
+// Rotas sem parâmetro de ID
+app.route('/services')
     .get(async (req, res) => {
         try {
-            const service = await Film.find();
+            const service = await Service.find();
+            res.json(service);
+        } catch (err) {
+            res.status(500).json({ msg: `Erro interno do servidor. + ${err}` });
+        }
+    })
+    .post(async (req, res) => {
+        try {
+            const service = new Service(req.body);
+            await service.save();
+            res.status(201).json(service);
+        } catch (err) {
+            res.status(500).json({ msg: `Erro interno do servidor. + ${err}` });
+        }
+    })
+
+// rotas com parametros de ID
+app.route('/services/:id')
+    .get(async (req, res) => {
+        const id = req.params.id;
+
+        try {
+            const service = await Service.findOne({ _id: id });
+            
             res.json(service);
         } catch (err) {
             res.status(500).json({ msg: `Erro interno do servidor. + ${err}` });
         }
     })
 
-    .delete (async (req, res) => {
+    .delete(async (req, res) => {
         try {
-            const service = await Film.findByIdAndDelete(req.params.id);
+            const service = await Service.findByIdAndDelete(req.params.id);
 
             if (!service) {
                 return res.status(404).json({ msg: 'Serviço não encontrado.' });
             }
 
-            res.send({ msg: "deleted success" });
+            res.json({ msg: "deleted success" });
         } catch (err) {
             res.status(500).json({ msg: `Erro interno do servidor. ${err}` });
         }
@@ -61,16 +85,6 @@ app.route('/Services')
             res.send(service);
         } catch (err) {
             res.status(500).json({ msg: `Erro interno do servidor. ooo  ${err}` });
-        }
-    })
-
-    .post(async (req, res) => {
-        try {
-            const service = new Service(req.body);
-            await service.save();
-            res.status(201).json(service);
-        } catch (err) {
-            res.status(500).json({ msg: `Erro interno do servidor. + ${err}` });
         }
     })
 
@@ -121,10 +135,6 @@ mongoose.connection.once('open', () => {
 
 mongoose.connection.on('error', (err) => {
     console.error(`Erro de conexão ao MongoDB: ${err}`);
-});
-
-app.use((req, res) => {
-    res.status(404).json({ msg: 'Rota não encontrada' });
 });
 
 app.listen(PORT, () => {
